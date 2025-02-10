@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oś Czasu</title>
+    <style>
+        .timeline {
+            list-style: none;
+            position: relative;
+            padding-left: 0;
+        }
+        .timeline li {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        .timeline li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #3498db;
+        }
+        .timeline img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nasza Oś Czasu</h1>
+    <ul class="timeline">
+        <li>
+            <p>Data 1</p>
+            <img src="https://via.placeholder.com/300" alt="Opis zdjęcia 1">
+        </li>
+        <li>
+            <p>Data 2</p>
+            <img src="https://via.placeholder.com/300" alt="Opis zdjęcia 2">
+        </li>
+        <li>
+            <p>Data 3</p>
+            <img src="https://via.placeholder.com/300" alt="Opis zdjęcia 3">
+        </li>
+    </ul>
+</body>
+</html>
