@@ -112,7 +112,6 @@
         }
 
         document.addEventListener("wheel", handleScroll);
-        document.addEventListener("scroll", handleScroll);
 
         // Obsługa gestów dotykowych
         let touchStartY = 0;
@@ -126,9 +125,9 @@
             let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
 
             if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
-                if (delta > 30 && index < items.length - 1) {
+                if (delta > 40 && index < items.length - 1) {
                     index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-                } else if (delta < -30 && index > 0) {
+                } else if (delta < -40 && index > 0) {
                     index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
                 }
                 showItem(index);
