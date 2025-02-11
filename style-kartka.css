@@ -11,6 +11,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
+    overflow: hidden; /* Blokowanie przewijania całej strony */
 }
 
 h1 {
@@ -27,7 +28,7 @@ h1 {
     width: 90%; /* Dopasowanie do szerokości ekranu */
     max-width: 600px; /* Ograniczenie szerokości */
     height: auto;
-    overflow-y: auto;
+    overflow: hidden;
     padding-left: 20px;
     margin: 20px auto; /* Wycentrowanie */
 }
