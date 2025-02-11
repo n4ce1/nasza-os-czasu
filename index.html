@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu</h1>
+    <h1>Nasza Oś Czasu2</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -66,71 +66,78 @@
         </div>
     </div>
 
-<script>
-    let index = 0;
-    const items = document.querySelectorAll(".timeline-item");
+    <script>
+        let index = 0;
+        const items = document.querySelectorAll(".timeline-item");
+        const scrollThreshold = 20; // Próg, po którym scroll reaguje (w pikselach)
 
-    function showItem(index) {
-        items.forEach((item, i) => {
-            item.classList.toggle("active", i === index);
-        });
-    }
-
-    // Lazy-load obrazków na telefonach
-    if (window.innerWidth < 768) {
-        document.querySelectorAll(".lazy-image").forEach(img => {
-            img.classList.add("visible");
-        });
-    } else {
-        let observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                    observer.unobserve(entry.target);
-                }
+        function showItem(index) {
+            items.forEach((item, i) => {
+                item.classList.toggle("active", i === index);
             });
-        }, { threshold: 0.2 });
+        }
 
-        document.querySelectorAll(".lazy-image").forEach(img => {
-            observer.observe(img);
+        // Lazy-load obrazków na telefonach
+        if (window.innerWidth < 768) {
+            document.querySelectorAll(".lazy-image").forEach(img => {
+                img.classList.add("visible");
+            });
+        } else {
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll(".lazy-image").forEach(img => {
+                observer.observe(img);
+            });
+        }
+
+        // Obsługa scrolla myszką
+        function handleScroll(event) {
+            let delta = event.deltaY;
+
+            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
+                if (delta > 0 && index < items.length - 1) {
+                    index++; // Scroll w dół -> przechodzimy do nowszej daty
+                } else if (delta < 0 && index > 0) {
+                    index--; // Scroll w górę -> przechodzimy do starszej daty
+                }
+                showItem(index);
+            }
+        }
+
+        document.addEventListener("wheel", handleScroll);
+        document.addEventListener("scroll", handleScroll);
+
+        // Obsługa gestów dotykowych
+        let touchStartY = 0;
+
+        document.addEventListener("touchstart", (event) => {
+            touchStartY = event.touches[0].clientY;
         });
-    }
 
-    // Obsługa scrolla myszką
-    function handleScroll(event) {
-        let delta = event.deltaY;
-        if (delta > 0 && index < items.length - 1) {
-            index++; // Scroll w dół -> przechodzimy do nowszej daty
-        } else if (delta < 0 && index > 0) {
-            index--; // Scroll w górę -> przechodzimy do starszej daty
-        }
+        document.addEventListener("touchmove", (event) => {
+            let touchEndY = event.touches[0].clientY;
+            let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
+
+            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
+                if (delta > 30 && index < items.length - 1) {
+                    index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
+                } else if (delta < -30 && index > 0) {
+                    index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
+                }
+                showItem(index);
+            }
+        });
+
         showItem(index);
-    }
+    </script>
 
-    document.addEventListener("wheel", handleScroll);
-    document.addEventListener("scroll", handleScroll);
-
-    // Obsługa gestów dotykowych
-    let touchStartY = 0;
-
-    document.addEventListener("touchstart", (event) => {
-        touchStartY = event.touches[0].clientY;
-    });
-
-    document.addEventListener("touchmove", (event) => {
-        let touchEndY = event.touches[0].clientY;
-        let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
-
-        if (delta > 30 && index < items.length - 1) {
-            index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-        } else if (delta < -30 && index > 0) {
-            index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
-        }
-        showItem(index);
-    });
-
-    showItem(index);
-</script>
 
 
 </body>
