@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu</h1>
+    <h1>Nasza Oś Czasu333</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -147,9 +147,9 @@
             if (Math.abs(delta) >= scrollThreshold) {
                 handleInteraction();
 
-                if (delta > 40 && index < items.length - 1) {
+                if (delta > 20 && index < items.length - 1) {
                     index++;
-                } else if (delta < -40 && index > 0) {
+                } else if (delta < -20 && index > 0) {
                     index--;
                 }
                 showItem(index);
