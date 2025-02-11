@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu333</h1>
+    <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -78,14 +78,25 @@
     <script>
         let firstInteraction = false;
         let index = 0;
-        let isScrolling = false; // Nowa zmienna do blokady
+        let isScrolling = false;
+        let lastScrollTime = 0; // Nowa zmienna do zapisywania czasu ostatniego przewinięcia
         const items = document.querySelectorAll(".timeline-item");
         const scrollThreshold = 20;
-        const scrollDelay = 400; // Czas blokady przewijania (0.5s)
+        const scrollDelay = 500; // Czas opóźnienia między przewinięciami (0.5s)
+        const yearDelay = 1000; // Opóźnienie między 2017 a 2018 (1s)
+        const imageDelay = 1000; // Opóźnienie między datą 2017 a zdjęciem (1s)
 
         function showItem(index) {
             items.forEach((item, i) => {
-                item.classList.toggle("active", i === index);
+                if (i === index) {
+                    item.classList.add("active"); // Pokaż datę
+                    setTimeout(() => {
+                        item.querySelector("img").style.display = "block"; // Pokaż zdjęcie po 500ms
+                    }, 500);
+                } else {
+                    item.classList.remove("active");
+                    item.querySelector("img").style.display = "none";
+                }
             });
 
             // Po 500ms odblokowujemy scrollowanie
@@ -117,6 +128,26 @@
             handleInteraction();
 
             let delta = event.deltaY;
+            const currentTime = Date.now();
+
+            // Po pierwszej interakcji, tylko zdjęcie z 2017
+            if (!firstInteraction) {
+                firstInteraction = true;
+                // Tylko zdjęcie z 2017 jest widoczne
+                showItem(0); // Pokaż tylko 2017
+                isScrolling = false; // Zablokuj przewijanie
+                return;
+            }
+
+            // Dodanie opóźnienia między 2017 a 2018
+            if (index === 0 && delta > 0 && currentTime - lastScrollTime < yearDelay) {
+                isScrolling = false;
+                return; // Opóźnienie między 2017 a 2018
+            }
+
+            // Zapisz czas przewinięcia
+            lastScrollTime = currentTime;
+
             if (Math.abs(delta) >= scrollThreshold) {
                 if (delta > 0 && index < items.length - 1) {
                     index++;
@@ -128,6 +159,7 @@
                 isScrolling = false; // Jeśli próg nie został przekroczony, odblokuj natychmiast
             }
         }
+
 
         document.addEventListener("wheel", handleScroll);
 
@@ -147,9 +179,9 @@
             if (Math.abs(delta) >= scrollThreshold) {
                 handleInteraction();
 
-                if (delta > 20 && index < items.length - 1) {
+                if (delta > 40 && index < items.length - 1) {
                     index++;
-                } else if (delta < -20 && index > 0) {
+                } else if (delta < -40 && index > 0) {
                     index--;
                 }
                 showItem(index);
@@ -159,6 +191,8 @@
         });
 
         showItem(index);
+
+
 
 
     </script>
