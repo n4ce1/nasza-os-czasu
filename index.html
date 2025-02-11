@@ -66,24 +66,35 @@
 
     <script>
         let index = 0;
-        const items = document.querySelectorAll(".timeline-item");
+const items = document.querySelectorAll(".timeline-item");
 
-        function showItem(index) {
-            items.forEach((item, i) => {
-                item.classList.toggle("active", i === index);
-            });
-        }
+function showItem(index) {
+    items.forEach((item, i) => {
+        item.classList.toggle("active", i === index);
+    });
+}
 
-        document.addEventListener("wheel", (event) => {
-            if (event.deltaY > 0 && index < items.length - 1) {
-                index++;
-            } else if (event.deltaY < 0 && index > 0) {
-                index--;
-            }
-            showItem(index);
-        });
+// Obsługa przewijania palcem
+let touchStartY = 0;
 
+document.addEventListener("touchstart", (event) => {
+    touchStartY = event.touches[0].clientY;
+});
+
+document.addEventListener("touchmove", (event) => {
+    const touchEndY = event.touches[0].clientY;
+    const deltaY = touchEndY - touchStartY;
+
+    if (deltaY > 50 && index > 0) { // Przesunięcie w dół
+        index--;
         showItem(index);
+    } else if (deltaY < -50 && index < items.length - 1) { // Przesunięcie w górę
+        index++;
+        showItem(index);
+    }
+});
+
+showItem(index);
     </script>
 </body>
 </html>
