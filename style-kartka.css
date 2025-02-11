@@ -17,9 +17,10 @@ h1 {
     font-family: 'Mea Culpa', sans-serif;
     margin: 20px 0;
     font-size: 3.5em;
-    color: #000000;  /* Kolor tekstu w nagłówku */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Lekki cień dla nagłówka */
+    color: #000000;  
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
 }
+
 .timeline-container {
     position: relative;
     width: 100%;
@@ -28,12 +29,12 @@ h1 {
     overflow-y: auto;
     padding-left: 40px;
     margin-top: 20px;
-    margin-left: 1200px; /* Przesunięcie całej osi o 350px w prawo */
+    margin-left: 1200px; 
 }
 
 .timeline {
     position: absolute;
-    left: 10px; /* Linia osi, przesunięta o 10px od krawędzi kontenera */
+    left: 10px;
     top: 0;
     bottom: 0;
     height: 122vh;
@@ -53,7 +54,7 @@ h1 {
 
 .timeline-item {
     position: absolute;
-    left: 30px; /* Przesunięcie wszystkich elementów osi o 30px */
+    left: 30px; 
     width: calc(100%);
     display: flex;
     align-items: center;
@@ -116,4 +117,37 @@ h1 {
     font-size: 2em;
     margin-top: 10px;
     color: #000000;
+}
+
+/* Responsywność na urządzenia mobilne */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    .timeline-container {
+        padding-left: 20px;
+        margin-left: 50px;
+    }
+    .timeline-item img {
+        width: 200px;
+        height: 200px;
+    }
+    .year {
+        font-size: 1em;
+    }
+}
+
+/* Wersja mobilna dla ekranów poniżej 480px */
+@media (max-width: 480px) {
+    .timeline-container {
+        padding-left: 10px;
+        margin-left: 20px;
+    }
+    .timeline-item img {
+        width: 150px;
+        height: 150px;
+    }
+    .year {
+        font-size: 0.8em;
+    }
 }
