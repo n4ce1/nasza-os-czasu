@@ -10,12 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu11</h1>
+    <h1>Nasza Oś Czasu1</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
         </div>
-        <!-- Zaktualizowane elementy timeline -->
         <div class="timeline-item" data-year="2017" style="top: 1%;">
             <div class="dot"></div>
             <div class="year">2017</div>
@@ -78,10 +77,25 @@
             });
         }
 
-        // Usuwamy lazy loading, żeby zdjęcia były widoczne od razu
-        document.querySelectorAll("img").forEach(img => {
-            img.classList.add("visible");
-        });
+        // Lazy-load obrazków na telefonach
+        if (window.innerWidth < 768) {
+            document.querySelectorAll(".lazy-image").forEach(img => {
+                img.classList.add("visible");
+            });
+        } else {
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll(".lazy-image").forEach(img => {
+                observer.observe(img);
+            });
+        }
 
         // Obsługa scrolla myszką
         function handleScroll(event) {
@@ -104,27 +118,27 @@
         let touchStartY = 0;
 
         document.addEventListener("touchstart", (event) => {
-            if (!event.target.closest(".timeline")) return; // Obsługujemy tylko dotknięcia osi czasu
             touchStartY = event.touches[0].clientY;
         });
 
         document.addEventListener("touchmove", (event) => {
-            if (!event.target.closest(".timeline")) return; // Ignorujemy gesty poza osią czasu
-            event.preventDefault(); // Zapobiegamy przewijaniu strony
-
             let touchEndY = event.touches[0].clientY;
             let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
 
-            if (Math.abs(delta) >= 40) {  // Zwiększony próg, mocniejszy gest wymagany
-                if (delta > 0 && index < items.length - 1) {
+            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
+                if (delta > 30 && index < items.length - 1) {
                     index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-                } else if (delta < 0 && index > 0) {
+                } else if (delta < -30 && index > 0) {
                     index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
                 }
                 showItem(index);
             }
         });
+
+        showItem(index);
     </script>
+
+
 
 </body>
 
