@@ -126,9 +126,9 @@
             let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
 
             if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
-                if (delta > 500 && index < items.length - 1) {
+                if (delta > 100 && index < items.length - 1) {
                     index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-                } else if (delta < -500 && index > 0) {
+                } else if (delta < -100 && index > 0) {
                     index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
                 }
                 showItem(index);
