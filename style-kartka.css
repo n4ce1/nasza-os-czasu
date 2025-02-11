@@ -119,6 +119,17 @@ h1 {
     color: #000000;
 }
 
+.lazy-image {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
+.lazy-image.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+
 /* Responsywność na urządzenia mobilne */
 @media (max-width: 568px) {
     h1 {
