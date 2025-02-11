@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu222</h1>
+    <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -77,14 +77,21 @@
 
     <script>
         let firstInteraction = false;
-        let index = 0; // Zmienna do śledzenia aktywnej pozycji
+        let index = 0;
+        let isScrolling = false; // Nowa zmienna do blokady
         const items = document.querySelectorAll(".timeline-item");
-        const scrollThreshold = 20; // Próg przewijania
+        const scrollThreshold = 20;
+        const scrollDelay = 500; // Czas blokady przewijania (0.5s)
 
         function showItem(index) {
             items.forEach((item, i) => {
                 item.classList.toggle("active", i === index);
             });
+
+            // Po 500ms odblokowujemy scrollowanie
+            setTimeout(() => {
+                isScrolling = false;
+            }, scrollDelay);
         }
 
         function loadLazyImages() {
@@ -104,16 +111,21 @@
         }
 
         function handleScroll(event) {
-            handleInteraction(); // Najpierw ładujemy obrazki
+            if (isScrolling) return; // Jeśli trwa przewijanie, ignorujemy kolejne akcje
+            isScrolling = true; // Blokujemy kolejne przewinięcia
+
+            handleInteraction();
 
             let delta = event.deltaY;
             if (Math.abs(delta) >= scrollThreshold) {
                 if (delta > 0 && index < items.length - 1) {
-                    index++; // Scroll w dół -> kolejna data
+                    index++;
                 } else if (delta < 0 && index > 0) {
-                    index--; // Scroll w górę -> wcześniejsza data
+                    index--;
                 }
                 showItem(index);
+            } else {
+                isScrolling = false; // Jeśli próg nie został przekroczony, odblokuj natychmiast
             }
         }
 
@@ -126,11 +138,14 @@
         });
 
         document.addEventListener("touchmove", (event) => {
+            if (isScrolling) return;
+            isScrolling = true;
+
             let touchEndY = event.touches[0].clientY;
             let delta = touchStartY - touchEndY;
 
             if (Math.abs(delta) >= scrollThreshold) {
-                handleInteraction(); // Najpierw ładujemy obrazki
+                handleInteraction();
 
                 if (delta > 40 && index < items.length - 1) {
                     index++;
@@ -138,10 +153,13 @@
                     index--;
                 }
                 showItem(index);
+            } else {
+                isScrolling = false;
             }
         });
 
-        showItem(index); // Pokazuje pierwszy rok (2017) bez przewijania
+        showItem(index);
+
 
     </script>
 </body>
