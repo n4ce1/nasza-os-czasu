@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interaktywna Oś Czasu 5 </title>
+    <title>Interaktywna Oś Czasu</title>
     <link rel="stylesheet" href="style-kartka.css"> <!-- Link do pliku CSS -->
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu3</h1>
+    <h1>Nasza Oś Czasu4</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -126,9 +126,9 @@
             let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
 
             if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
-                if (delta > 30 && index < items.length - 1) {
+                if (delta > 50 && index < items.length - 1) {
                     index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-                } else if (delta < -30 && index > 0) {
+                } else if (delta < -50 && index > 0) {
                     index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
                 }
                 showItem(index);
