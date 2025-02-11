@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu111</h1>
+    <h1>Nasza Oś Czasu222</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -76,10 +76,10 @@
     </div>
 
     <script>
-        let index = 0;
-        const items = document.querySelectorAll(".timeline-item");
-        const scrollThreshold = 20; // Próg, po którym scroll reaguje (w pikselach)
         let firstInteraction = false;
+        let index = 0; // Zmienna do śledzenia aktywnej pozycji
+        const items = document.querySelectorAll(".timeline-item");
+        const scrollThreshold = 20; // Próg przewijania
 
         function showItem(index) {
             items.forEach((item, i) => {
@@ -87,29 +87,31 @@
             });
         }
 
-        // Lazy-load obrazków na telefonach
         function loadLazyImages() {
             document.querySelectorAll(".lazy-image").forEach(img => {
-                const src = img.getAttribute('data-src');
-                img.setAttribute('src', src);
-                img.classList.add("visible");
+                if (!img.src) {
+                    img.src = img.getAttribute('data-src');
+                    img.classList.add("visible");
+                }
             });
         }
 
-        // Obsługa scrolla myszką
+        function handleInteraction() {
+            if (!firstInteraction) {
+                firstInteraction = true;
+                loadLazyImages();
+            }
+        }
+
         function handleScroll(event) {
+            handleInteraction(); // Najpierw ładujemy obrazki
+
             let delta = event.deltaY;
-
             if (Math.abs(delta) >= scrollThreshold) {
-                if (!firstInteraction) {
-                    firstInteraction = true;
-                    loadLazyImages(); // Ładujemy obrazy po pierwszym przewinięciu
-                }
-
                 if (delta > 0 && index < items.length - 1) {
-                    index++; // Scroll w dół -> przechodzimy do nowszej daty
+                    index++; // Scroll w dół -> kolejna data
                 } else if (delta < 0 && index > 0) {
-                    index--; // Scroll w górę -> przechodzimy do starszej daty
+                    index--; // Scroll w górę -> wcześniejsza data
                 }
                 showItem(index);
             }
@@ -117,33 +119,30 @@
 
         document.addEventListener("wheel", handleScroll);
 
-        // Obsługa gestów dotykowych
+        // Obsługa dotyku na telefonach
         let touchStartY = 0;
-
         document.addEventListener("touchstart", (event) => {
             touchStartY = event.touches[0].clientY;
         });
 
         document.addEventListener("touchmove", (event) => {
             let touchEndY = event.touches[0].clientY;
-            let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
+            let delta = touchStartY - touchEndY;
 
             if (Math.abs(delta) >= scrollThreshold) {
-                if (!firstInteraction) {
-                    firstInteraction = true;
-                    loadLazyImages(); // Ładujemy obrazy po pierwszym przewinięciu
-                }
+                handleInteraction(); // Najpierw ładujemy obrazki
 
                 if (delta > 40 && index < items.length - 1) {
-                    index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
+                    index++;
                 } else if (delta < -40 && index > 0) {
-                    index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
+                    index--;
                 }
                 showItem(index);
             }
         });
 
-        showItem(index);
+        showItem(index); // Pokazuje pierwszy rok (2017) bez przewijania
+
     </script>
 </body>
 
