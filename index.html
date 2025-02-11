@@ -1,25 +1,64 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktywna Oś Czasu</title>
-    <link rel="stylesheet" href="style-kartka.css">
+    <link rel="stylesheet" href="style-kartka.css"> <!-- Link do pliku CSS -->
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
+
 <body>
     <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
-            <div class="first-dot"></div>
+            <div class="first-dot"></div> <!-- Kropka na początku osi -->
         </div>
-        <div class="timeline-items">
-            <div class="timeline-item" data-year="2017">
-                <div class="dot"></div>
-                <div class="year">2017</div>
-                <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2017">
-            </div>
-            <!-- Powtórz podobnie dla innych lat -->
+        <div class="timeline-item" data-year="2017" style="top: 5%;">
+            <div class="dot"></div>
+            <div class="year">2017</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2017">
+        </div>
+        <div class="timeline-item" data-year="2018" style="top: 13%;">
+            <div class="dot"></div>
+            <div class="year">2018</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2018">
+        </div>
+        <div class="timeline-item" data-year="2019" style="top: 21%;">
+            <div class="dot"></div>
+            <div class="year">2019</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2019">
+        </div>
+        <div class="timeline-item" data-year="2020" style="top: 29%;">
+            <div class="dot"></div>
+            <div class="year">2020</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2020">
+        </div>
+        <div class="timeline-item" data-year="2021" style="top: 37%;">
+            <div class="dot"></div>
+            <div class="year">2021</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2021">
+        </div>
+        <div class="timeline-item" data-year="2022" style="top: 45%;">
+            <div class="dot"></div>
+            <div class="year">2022</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2022">
+        </div>
+        <div class="timeline-item" data-year="2023" style="top: 53%;">
+            <div class="dot"></div>
+            <div class="year">2023</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2023">
+        </div>
+        <div class="timeline-item" data-year="2024" style="top: 61%;">
+            <div class="dot"></div>
+            <div class="year">2024</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2024">
+        </div>
+        <div class="timeline-item" data-year="2025" style="top: 69%;">
+            <div class="dot"></div>
+            <div class="year">2025</div>
+            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2025">
         </div>
         <div class="timeline-end">
             <div class="arrow-down"></div>
@@ -37,30 +76,17 @@
             });
         }
 
-        let touchStartY = 0;
-
-        document.addEventListener("touchstart", (event) => {
-            touchStartY = event.touches[0].clientY;
-        });
-
-        document.addEventListener("touchmove", (event) => {
-            const touchEndY = event.touches[0].clientY;
-            const deltaY = touchEndY - touchStartY;
-
-            if (Math.abs(deltaY) > 10) {
-                event.preventDefault(); // zapobiegaj domyślnemu przewijaniu
-            }
-
-            if (deltaY > 50 && index > 0) {
-                index--;
-                showItem(index);
-            } else if (deltaY < -50 && index < items.length - 1) {
+        document.addEventListener("wheel", (event) => {
+            if (event.deltaY > 0 && index < items.length - 1) {
                 index++;
-                showItem(index);
+            } else if (event.deltaY < 0 && index > 0) {
+                index--;
             }
+            showItem(index);
         });
 
         showItem(index);
     </script>
 </body>
+
 </html>
