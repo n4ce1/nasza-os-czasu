@@ -178,9 +178,9 @@
             if (Math.abs(delta) >= scrollThreshold) {
                 handleInteraction();
 
-                if (delta > 40 && index < items.length - 1) {
+                if (delta > 35 && index < items.length - 1) {
                     index++;
-                } else if (delta < -40 && index > 0) {
+                } else if (delta < -10 && index > 0) {
                     index--;
                 }
                 showItem(index);
