@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Mea Culpa', sans-serif;
+    background: linear-gradient(45deg, #ff6f61, #d4a5a5);
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+h1 {
+    font-family: 'Mea Culpa', sans-serif;
+    margin: 20px 0;
+    font-size: 3.5em;
+    color: #000000;  /* Kolor tekstu w nagłówku */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Lekki cień dla nagłówka */
+}
+.timeline-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 120vh;
+    overflow-y: auto;
+    padding-left: 40px;
+    margin-top: 20px;
+    margin-left: 1200px; /* Przesunięcie całej osi o 350px w prawo */
+}
+
+.timeline {
+    position: absolute;
+    left: 10px; /* Linia osi, przesunięta o 10px od krawędzi kontenera */
+    top: 0;
+    bottom: 0;
+    height: 122vh;
+    width: 4px;
+    background-color: #000000;
+}
+
+.first-dot {
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #000000;
+    border-radius: 50%;
+}
+
+.timeline-item {
+    position: absolute;
+    left: 30px; /* Przesunięcie wszystkich elementów osi o 30px */
+    width: calc(100%);
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.timeline-item.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: #000000;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.year {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+.timeline-item img {
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #333;
+    transition: transform 0.3s ease;
+}
+
+.timeline-item.active img {
+    transform: scale(1.1);
+}
+
+.timeline-end {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid #000000;
+}
+
+.infinity-symbol {
+    font-size: 2em;
+    margin-top: 10px;
+    color: #000000;
+}
