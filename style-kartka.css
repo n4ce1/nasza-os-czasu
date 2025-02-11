@@ -127,10 +127,11 @@ h1 {
     .timeline-container {
         padding-left: 20px;
         margin-left: 50px;
+        width: 100%;
     }
     .timeline-item img {
-        width: 200px;
-        height: 200px;
+        width: 300px;
+        height: 300px;
     }
     .year {
         font-size: 1em;
