@@ -66,61 +66,72 @@
         </div>
     </div>
 
-    <script>
-        let index = 0;
-        const items = document.querySelectorAll(".timeline-item");
+<script>
+    let index = 0;
+    const items = document.querySelectorAll(".timeline-item");
 
-        function showItem(index) {
-            items.forEach((item, i) => {
-                item.classList.toggle("active", i === index);
-            });
-        }
-
-        // Lazy-load obrazków na telefonach
-        if (window.innerWidth < 768) {
-            document.querySelectorAll(".lazy-image").forEach(img => {
-                img.classList.add("visible");
-            });
-        } else {
-            let observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            document.querySelectorAll(".lazy-image").forEach(img => {
-                observer.observe(img);
-            });
-        }
-
-        // Obsługa scrolla myszką i palcem
-        let touchStartY = 0;
-
-        function handleScroll(event) {
-            let delta = event.deltaY || event.touches?.[0]?.clientY - touchStartY;
-
-            if (delta > 0 && index < items.length - 1) {
-                index++;
-            } else if (delta < 0 && index > 0) {
-                index--;
-            }
-            showItem(index);
-        }
-
-        document.addEventListener("wheel", handleScroll);
-        document.addEventListener("scroll", handleScroll);
-
-        document.addEventListener("touchstart", (event) => {
-            touchStartY = event.touches[0].clientY;
+    function showItem(index) {
+        items.forEach((item, i) => {
+            item.classList.toggle("active", i === index);
         });
+    }
 
-        document.addEventListener("touchmove", handleScroll);
+    // Lazy-load obrazków na telefonach
+    if (window.innerWidth < 768) {
+        document.querySelectorAll(".lazy-image").forEach(img => {
+            img.classList.add("visible");
+        });
+    } else {
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
 
+        document.querySelectorAll(".lazy-image").forEach(img => {
+            observer.observe(img);
+        });
+    }
+
+    // Obsługa scrolla myszką
+    function handleScroll(event) {
+        let delta = event.deltaY;
+        if (delta > 0 && index < items.length - 1) {
+            index++; // Scroll w dół -> przechodzimy do nowszej daty
+        } else if (delta < 0 && index > 0) {
+            index--; // Scroll w górę -> przechodzimy do starszej daty
+        }
         showItem(index);
-    </script>
+    }
+
+    document.addEventListener("wheel", handleScroll);
+    document.addEventListener("scroll", handleScroll);
+
+    // Obsługa gestów dotykowych
+    let touchStartY = 0;
+
+    document.addEventListener("touchstart", (event) => {
+        touchStartY = event.touches[0].clientY;
+    });
+
+    document.addEventListener("touchmove", (event) => {
+        let touchEndY = event.touches[0].clientY;
+        let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
+
+        if (delta > 30 && index < items.length - 1) {
+            index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
+        } else if (delta < -30 && index > 0) {
+            index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
+        }
+        showItem(index);
+    });
+
+    showItem(index);
+</script>
+
 
 </body>
 
