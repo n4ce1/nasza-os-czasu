@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 body {
+    
     font-family: 'Mea Culpa', sans-serif;
     background: linear-gradient(45deg, #ff6f61, #d4a5a5);
     color: #000000;
@@ -22,6 +23,7 @@ h1 {
 }
 
 .timeline-container {
+    
     position: relative;
     width: 100%;
     max-width: 1200px;
@@ -77,7 +79,7 @@ h1 {
 }
 
 .year {
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
     margin-right: 30px;
 }
@@ -129,11 +131,10 @@ h1 {
     visibility: visible;
 }
 
-
 /* Responsywność na urządzenia mobilne */
-@media (max-width: 568px) {
+@media (max-width: 768px) {
     h1 {
-        font-size: 2em;
+        font-size: 5em;
     }
     .timeline-container {
         padding-left: 20px;
@@ -145,7 +146,7 @@ h1 {
         height: 300px;
     }
     .year {
-        font-size: 1.8em;
+        font-size: 2.0em;
     }
 }
 
@@ -163,3 +164,4 @@ h1 {
         font-size: 0.8em;
     }
 }
+
