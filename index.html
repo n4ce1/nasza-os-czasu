@@ -75,7 +75,11 @@
                 item.classList.toggle("active", i === index);
             });
         }
-
+        if (window.innerWidth < 768) {
+            document.querySelectorAll(".lazy-image").forEach(img => {
+                img.classList.add("visible");
+            });
+        }
         document.addEventListener("wheel", (event) => {
             if (event.deltaY > 0 && index < items.length - 1) {
                 index++;
