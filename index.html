@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu6</h1>
+    <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -117,25 +117,28 @@
         // Obsługa gestów dotykowych
         let touchStartY = 0;
 
-        document.addEventListener("touchstart", (event) => {
-            touchStartY = event.touches[0].clientY;
-        });
+document.addEventListener("touchstart", (event) => {
+    if (!event.target.closest(".timeline")) return; // Obsługujemy tylko dotknięcia osi czasu
+    touchStartY = event.touches[0].clientY;
+});
 
-        document.addEventListener("touchmove", (event) => {
-            let touchEndY = event.touches[0].clientY;
-            let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
+document.addEventListener("touchmove", (event) => {
+    if (!event.target.closest(".timeline")) return; // Ignorujemy gesty poza osią czasu
+    event.preventDefault(); // Zapobiegamy przewijaniu strony
 
-            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
-                if (delta > 30 && index < items.length - 1) {
-                    index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-                } else if (delta < -30 && index > 0) {
-                    index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
-                }
-                showItem(index);
-            }
-        });
+    let touchEndY = event.touches[0].clientY;
+    let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
 
+    if (Math.abs(delta) >= 40) {  // Zwiększony próg, mocniejszy gest wymagany
+        if (delta > 0 && index < items.length - 1) {
+            index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
+        } else if (delta < 0 && index > 0) {
+            index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
+        }
         showItem(index);
+    }
+});
+
     </script>
 
 
