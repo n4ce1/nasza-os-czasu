@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu</h1>
+    <h1>Nasza Oś Czasu1</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -113,6 +113,22 @@
                 }
             });
         }
+        // Obsługa scrolla myszką
+        function handleScroll(event) {
+            let delta = event.deltaY;
+
+            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
+                if (delta > 0 && index < items.length - 1) {
+                    index++; // Scroll w dół -> przechodzimy do nowszej daty
+                } else if (delta < 0 && index > 0) {
+                    index--; // Scroll w górę -> przechodzimy do starszej daty
+                }
+                showItem(index);
+            }
+        }
+
+        document.addEventListener("wheel", handleScroll);
+        document.addEventListener("scroll", handleScroll);
 
         // Funkcja do pokazania zdjęcia 2017 od razu po załadowaniu strony
         function initializeTimeline() {
