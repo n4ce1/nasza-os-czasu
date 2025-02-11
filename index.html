@@ -79,24 +79,10 @@
         }
 
         // Lazy-load obrazków na telefonach
-        if (window.innerWidth < 768) {
-            document.querySelectorAll(".lazy-image").forEach(img => {
-                img.classList.add("visible");
-            });
-        } else {
-            let observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
+document.querySelectorAll(".lazy-image").forEach(img => {
+    img.classList.add("visible");
+});
 
-            document.querySelectorAll(".lazy-image").forEach(img => {
-                observer.observe(img);
-            });
-        }
 
         // Obsługa scrolla myszką
         function handleScroll(event) {
