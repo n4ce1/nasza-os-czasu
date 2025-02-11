@@ -11,7 +11,6 @@ body {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    overflow: hidden; /* Blokowanie przewijania całej strony */
 }
 
 h1 {
@@ -19,26 +18,26 @@ h1 {
     margin: 20px 0;
     font-size: 3.5em;
     color: #000000;  
-    text-align: center;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
 }
 
 .timeline-container {
     position: relative;
-    width: 90%; /* Dopasowanie do szerokości ekranu */
-    max-width: 600px; /* Ograniczenie szerokości */
-    height: 80vh; /* Wysokość kontenera */
-    overflow: hidden;
-    padding-left: 20px;
-    margin: 20px auto; /* Wycentrowanie */
-    touch-action: pan-y; /* Umożliwia przesuwanie palcem w pionie */
+    width: 100%;
+    max-width: 1200px;
+    height: 120vh;
+    overflow-y: auto;
+    padding-left: 40px;
+    margin-top: 20px;
+    margin-left: 1200px; 
 }
 
 .timeline {
     position: absolute;
-    left: 20px;
+    left: 10px;
     top: 0;
     bottom: 0;
+    height: 122vh;
     width: 4px;
     background-color: #000000;
 }
@@ -55,15 +54,13 @@ h1 {
 
 .timeline-item {
     position: absolute;
-    left: 40px; /* Przesunięcie bliżej osi */
-    width: calc(100% - 40px);
+    left: 30px; 
+    width: calc(100%);
     display: flex;
     align-items: center;
     opacity: 0;
     transform: scale(0);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    flex-direction: column;
-    text-align: center;
 }
 
 .timeline-item.active {
@@ -76,19 +73,18 @@ h1 {
     height: 12px;
     background-color: #000000;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 .year {
     font-size: 1.2em;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-right: 30px;
 }
 
 .timeline-item img {
-    width: 80%; /* Zdjęcia bardziej responsywne */
-    max-width: 300px;
-    height: auto;
+    width: 300px;
+    height: 300px;
     border-radius: 10px;
     object-fit: cover;
     border: 2px solid #333;
@@ -126,63 +122,32 @@ h1 {
 /* Responsywność na urządzenia mobilne */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2.5em;
+        font-size: 2em;
     }
-
     .timeline-container {
-        width: 95%;
-        padding-left: 10px;
+        padding-left: 20px;
+        margin-left: 50px;
     }
-
-    .timeline {
-        left: 10px;
-    }
-
-    .timeline-item {
-        left: 20px;
-        width: calc(100% - 40px);
-    }
-
     .timeline-item img {
-        width: 90%;
-        max-width: 250px;
+        width: 200px;
+        height: 200px;
     }
-
     .year {
-        font-size: 1.1em;
+        font-size: 1em;
     }
 }
 
 /* Wersja mobilna dla ekranów poniżej 480px */
 @media (max-width: 480px) {
-    body {
-        font-size: 16px;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
     .timeline-container {
-        width: 100%;
-        padding-left: 5px;
+        padding-left: 10px;
+        margin-left: 20px;
     }
-
-    .timeline {
-        left: 5px;
-    }
-
-    .timeline-item {
-        left: 10px;
-        width: calc(100% - 20px);
-    }
-
     .timeline-item img {
-        width: 95%;
-        max-width: 180px;
+        width: 150px;
+        height: 150px;
     }
-
     .year {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
 }
