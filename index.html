@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu1</h1>
+    <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -18,47 +18,47 @@
         <div class="timeline-item" data-year="2017" style="top: 3%;">
             <div class="dot"></div>
             <div class="year">2017</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2017">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2017">
         </div>
         <div class="timeline-item" data-year="2018" style="top: 10%;">
             <div class="dot"></div>
             <div class="year">2018</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2018">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2018">
         </div>
         <div class="timeline-item" data-year="2019" style="top: 20%;">
             <div class="dot"></div>
             <div class="year">2019</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2019">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2019">
         </div>
         <div class="timeline-item" data-year="2020" style="top: 30%;">
             <div class="dot"></div>
             <div class="year">2020</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2020">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2020">
         </div>
         <div class="timeline-item" data-year="2021" style="top: 40%;">
             <div class="dot"></div>
             <div class="year">2021</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2021">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2021">
         </div>
         <div class="timeline-item" data-year="2022" style="top: 50%;">
             <div class="dot"></div>
             <div class="year">2022</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2022">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2022">
         </div>
         <div class="timeline-item" data-year="2023" style="top: 60%;">
             <div class="dot"></div>
             <div class="year">2023</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2023">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2023">
         </div>
         <div class="timeline-item" data-year="2024" style="top: 70%;">
             <div class="dot"></div>
             <div class="year">2024</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2024">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2024">
         </div>
         <div class="timeline-item" data-year="2025" style="top: 80%;">
             <div class="dot"></div>
             <div class="year">2025</div>
-            <img src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2025">
+            <img class="lazy-image" data-src="https://raw.githubusercontent.com/n4ce1/nasza-os-czasu/main/123.png" alt="Zdjęcie 2025">
         </div>
         <div class="timeline-end">
             <div class="arrow-down"></div>
@@ -70,6 +70,7 @@
         let index = 0;
         const items = document.querySelectorAll(".timeline-item");
         const scrollThreshold = 20; // Próg, po którym scroll reaguje (w pikselach)
+        let firstInteraction = false;
 
         function showItem(index) {
             items.forEach((item, i) => {
@@ -78,22 +79,11 @@
         }
 
         // Lazy-load obrazków na telefonach
-        if (window.innerWidth < 768) {
+        function loadLazyImages() {
             document.querySelectorAll(".lazy-image").forEach(img => {
+                const src = img.getAttribute('data-src');
+                img.setAttribute('src', src);
                 img.classList.add("visible");
-            });
-        } else {
-            let observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            document.querySelectorAll(".lazy-image").forEach(img => {
-                observer.observe(img);
             });
         }
 
@@ -101,7 +91,12 @@
         function handleScroll(event) {
             let delta = event.deltaY;
 
-            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
+            if (Math.abs(delta) >= scrollThreshold) {
+                if (!firstInteraction) {
+                    firstInteraction = true;
+                    loadLazyImages(); // Ładujemy obrazy po pierwszym przewinięciu
+                }
+
                 if (delta > 0 && index < items.length - 1) {
                     index++; // Scroll w dół -> przechodzimy do nowszej daty
                 } else if (delta < 0 && index > 0) {
@@ -124,10 +119,15 @@
             let touchEndY = event.touches[0].clientY;
             let delta = touchStartY - touchEndY; // Obliczamy różnicę przesunięcia
 
-            if (Math.abs(delta) >= scrollThreshold) {  // Ustawiamy próg, np. 50px
-                if (delta > 10 && index < items.length - 1) {
+            if (Math.abs(delta) >= scrollThreshold) {
+                if (!firstInteraction) {
+                    firstInteraction = true;
+                    loadLazyImages(); // Ładujemy obrazy po pierwszym przewinięciu
+                }
+
+                if (delta > 40 && index < items.length - 1) {
                     index++; // Przesunięcie palcem w górę -> przechodzimy do nowszej daty
-                } else if (delta < -50 && index > 0) {
+                } else if (delta < -40 && index > 0) {
                     index--; // Przesunięcie palcem w dół -> wracamy do starszej daty
                 }
                 showItem(index);
@@ -136,9 +136,6 @@
 
         showItem(index);
     </script>
-
-
-
 </body>
 
 </html>
