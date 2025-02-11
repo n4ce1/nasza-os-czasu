@@ -120,7 +120,7 @@ h1 {
 }
 
 /* Responsywność na urządzenia mobilne */
-@media (max-width: 768px) {
+@media (max-width: 668px) {
     h1 {
         font-size: 2em;
     }
@@ -139,7 +139,7 @@ h1 {
 }
 
 /* Wersja mobilna dla ekranów poniżej 480px */
-@media (max-width: 480px) {
+@media (max-width: 380px) {
     .timeline-container {
         padding-left: 10px;
         margin-left: 20px;
