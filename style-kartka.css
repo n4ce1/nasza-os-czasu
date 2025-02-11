@@ -122,32 +122,49 @@ h1 {
 /* Responsywność na urządzenia mobilne */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2em;
+        font-size: 2.5em;
     }
+
     .timeline-container {
         padding-left: 20px;
         margin-left: 50px;
     }
+
     .timeline-item img {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
     }
+
     .year {
-        font-size: 1em;
+        font-size: 1.1em;
     }
 }
 
 /* Wersja mobilna dla ekranów poniżej 480px */
 @media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
     .timeline-container {
         padding-left: 10px;
         margin-left: 20px;
     }
+
     .timeline-item img {
         width: 150px;
         height: 150px;
     }
+
     .year {
-        font-size: 0.8em;
+        font-size: 0.9em;
+    }
+
+    .timeline {
+        height: 150vh;
     }
 }
