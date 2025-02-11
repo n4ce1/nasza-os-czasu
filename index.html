@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu21212</h1>
+    <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -114,18 +114,16 @@
             });
         }
 
-        function handleInteraction() {
-            if (!firstInteraction) {
-                firstInteraction = true;
-                loadLazyImages();
-            }
+        // Funkcja do pokazania zdjęcia 2017 od razu po załadowaniu strony
+        function initializeTimeline() {
+            // Pokaż element o indeksie 0 (2017) na początku
+            showItem(0);
+            loadLazyImages(); // Załaduj obrazy
         }
 
         function handleScroll(event) {
             if (isScrolling) return; // Jeśli trwa przewijanie, ignorujemy kolejne akcje
             isScrolling = true; // Blokujemy kolejne przewinięcia
-
-            handleInteraction();
 
             let delta = event.deltaY;
             const currentTime = Date.now();
@@ -157,7 +155,7 @@
             }
         }
 
-
+        // Obsługa przewijania
         document.addEventListener("wheel", handleScroll);
 
         // Obsługa dotyku na telefonach
@@ -174,8 +172,6 @@
             let delta = touchStartY - touchEndY;
 
             if (Math.abs(delta) >= scrollThreshold) {
-                handleInteraction();
-
                 if (delta > 15 && index < items.length - 1) {
                     index++;
                 } else if (delta < -10 && index > 0) {
@@ -187,12 +183,10 @@
             }
         });
 
-        showItem(index);
-
-
-
-
+        // Wywołanie funkcji, aby po załadowaniu strony pokazać 2017 od razu
+        window.onload = initializeTimeline;
     </script>
+
 </body>
 
 </html>
