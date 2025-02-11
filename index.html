@@ -1,17 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interaktywna Oś Czasu</title>
+    <title>Interaktywna Oś Czasu3</title>
     <link rel="stylesheet" href="style-kartka.css"> <!-- Link do pliku CSS -->
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
 
 <body>
-    <h1>Nasza Oś Czasu2</h1>
+    <h1>Nasza Oś Czasu</h1>
     <div class="timeline-container">
         <div class="timeline">
             <div class="first-dot"></div> <!-- Kropka na początku osi -->
@@ -76,22 +75,53 @@
                 item.classList.toggle("active", i === index);
             });
         }
+
+        // Lazy-load obrazków na telefonach
         if (window.innerWidth < 768) {
             document.querySelectorAll(".lazy-image").forEach(img => {
                 img.classList.add("visible");
             });
+        } else {
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll(".lazy-image").forEach(img => {
+                observer.observe(img);
+            });
         }
-        document.addEventListener("wheel", (event) => {
-            if (event.deltaY > 0 && index < items.length - 1) {
+
+        // Obsługa scrolla myszką i palcem
+        let touchStartY = 0;
+
+        function handleScroll(event) {
+            let delta = event.deltaY || event.touches?.[0]?.clientY - touchStartY;
+
+            if (delta > 0 && index < items.length - 1) {
                 index++;
-            } else if (event.deltaY < 0 && index > 0) {
+            } else if (delta < 0 && index > 0) {
                 index--;
             }
             showItem(index);
+        }
+
+        document.addEventListener("wheel", handleScroll);
+        document.addEventListener("scroll", handleScroll);
+
+        document.addEventListener("touchstart", (event) => {
+            touchStartY = event.touches[0].clientY;
         });
+
+        document.addEventListener("touchmove", handleScroll);
 
         showItem(index);
     </script>
+
 </body>
 
 </html>
